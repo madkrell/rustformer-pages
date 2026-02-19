@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+    <title>Rustformer</title>
+    <link href="https://madkrell.github.io/rustformer-pages/feed.xml" rel="self" />
+    <link href="https://madkrell.github.io/rustformer-pages" />
+    <updated>2026-02-19T20:16:32+00:00</updated>
+    <author>
+        <name>Matt Earp</name>
+    </author>
+    <id>https://madkrell.github.io/rustformer-pages</id>
+
+    <entry>
+        <title>Closures in Rust: Your New Favourite Superpower</title>
+        <author>
+            <name>Matt Earp</name>
+        </author>
+        <link href="https://madkrell.github.io/rustformer-pages/closures-in-rust-your-new-favourite-superpower.html"/>
+        <id>https://madkrell.github.io/rustformer-pages/closures-in-rust-your-new-favourite-superpower.html</id>
+
+        <updated>2026-02-19T20:16:32+00:00</updated>
+            <summary type="html">
+                <![CDATA[
+                    You know that feeling when you discover a feature in a language and think, "Wait… it does that automatically?" That's closures in Rust. They look simple on the surface — just little anonymous functions you can toss around — but underneath, Rust's ownership system turns&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p><strong>You know that feeling when you discover a feature in a language and think, "Wait… it does <em>that</em> automatically?"</strong> That's closures in Rust. They look simple on the surface — just little anonymous functions you can toss around — but underneath, Rust's ownership system turns them into something genuinely special. Something no other mainstream language quite pulls off.</p>
+<p>Let's dig in.</p>
+<hr>
+<h2>So What <em>Is</em> a Closure, Anyway?</h2>
+<p>If you've used JavaScript, Python, or pretty much any modern language, you've met closures before. They're functions that "close over" their environment — meaning they can reach out and grab variables from the scope they were defined in.</p>
+<p>Here's the twist: in most languages, closures just… grab stuff. There's a garbage collector to clean up the mess later. Nobody thinks about who <em>owns</em> what.</p>
+<p>Rust doesn't have a garbage collector. Rust thinks about who owns what <em>all the time</em>. And rather than making closures painful, this actually makes them <strong>brilliant</strong> — because the compiler figures out, at compile time, exactly how your closure interacts with the data around it. No runtime overhead. No hidden copies. No surprise mutations.</p>
+<p>Let's see it in action.</p>
+<hr>
+<h2>The Three Flavours of Capture</h2>
+<p>When a closure reaches out and grabs a variable from its environment, Rust decides <em>how</em> to capture it based on what the closure actually does with it. There are three modes, and they map directly onto Rust's core ownership concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Capture Mode</th>
+<th>What Happens</th>
+<th>Trait Implemented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Immutable borrow</strong> (<code>&amp;T</code>)</td>
+<td>The closure peeks at the data but doesn't change it</td>
+<td><code>Fn</code></td>
+</tr>
+<tr>
+<td><strong>Mutable borrow</strong> (<code>&amp;mut T</code>)</td>
+<td>The closure modifies the data in place</td>
+<td><code>FnMut</code></td>
+</tr>
+<tr>
+<td><strong>Ownership</strong> (<code>T</code>)</td>
+<td>The closure <em>takes</em> the data — the original variable is gone</td>
+<td><code>FnOnce</code></td>
+</tr>
+</tbody>
+</table>
+<p>The beautiful part? <strong>You don't have to pick.</strong> Rust infers the least restrictive mode that makes your code work. You write natural, readable code, and the compiler does the bookkeeping.</p>
+<p>Let's walk through each one with a concrete example.</p>
+<hr>
+<h2>Flavour 1: Borrowing Immutably — "I Just Want to Look"</h2>
+<pre class="language-rust"><code>fn main() {
+    let names = vec![
+        "Alice".to_string(),
+        "Bob".to_string(),
+        "Charlie".to_string(),
+    ];
+
+    // This closure only *reads* `names`, so Rust borrows it immutably
+    let print_count = || println!("Count: {}", names.len());
+
+    print_count();
+
+    // `names` is still perfectly usable here — nothing was consumed!
+    println!("Names still here: {}", names.len());
+}</code></pre>
+<pre><code class="language-rust"></code><code>Count: 3
+Names still here: 3
+</code></pre>
+<p>The closure <code>print_count</code> calls <code>names.len()</code>, which only needs a shared reference. Rust sees this and automatically captures <code>names</code> by <code>&amp;T</code> — an immutable borrow. The closure implements the <code>Fn</code> trait, meaning you can call it as many times as you like, and <code>names</code> remains completely untouched and usable afterwards.</p>
+<p>In a language like JavaScript, you'd never even think about this. But you'd also never get the <strong>guarantee</strong> that this closure can't mutate your data behind your back. Rust gives you that guarantee at zero cost.</p>
+<hr>
+<h2>Flavour 2: Borrowing Mutably — "I Need to Change Things"</h2>
+<pre class="language-rust"><code>fn main() {
+    let mut scores = vec![10, 20, 30];
+
+    // This closure *modifies* `scores`, so Rust borrows it mutably
+    let mut add_score = || scores.push(40);
+
+    add_score();
+
+    println!("Scores after mutation: {:?}", scores);
+}</code></pre>
+<pre><code class="language-rust"></code><code>Scores after mutation: [10, 20, 30, 40]
+</code></pre>
+<p>Now we're pushing to the vector, which requires <code>&amp;mut self</code>. Rust automatically upgrades the capture to a <strong>mutable borrow</strong> (<code>&amp;mut T</code>). Notice two things:</p>
+<ol>
+<li>
+<p>The closure itself must be declared <code>let mut add_score</code> — because calling it mutates state, so the binding to the closure needs to be mutable too. Rust makes the mutation <em>visible</em> in the code. No sneaky side effects hiding behind an innocent-looking variable.</p>
+</li>
+<li>
+<p>You can't use <code>scores</code> while the mutable borrow is active. Try inserting a <code>println!("{:?}", scores)</code> between the closure definition and the call, and the compiler will politely refuse. This is Rust's borrowing rule — <strong>one mutable reference at a time</strong> — and it applies to closures exactly the same way it applies everywhere else. Consistency is king.</p>
+</li>
+</ol>
+<hr>
+<h2>Flavour 3: Taking Ownership — "This Is Mine Now"</h2>
+<p>Sometimes a closure needs to <em>own</em> its data outright. This happens most often when the closure outlives the scope it was created in — think spawning a thread or returning a closure from a function. That's where the <code>move</code> keyword comes in.</p>
+<p>But ownership transfer also happens naturally with iterators:</p>
+<pre class="language-rust"><code>fn main() {
+    let data = vec![1, 2, 3, 4, 5];
+
+    // `into_iter()` consumes `data`, transferring ownership into the iterator chain
+    let doubled: Vec&lt;i32&gt; = data.into_iter().map(|x| x * 2).collect();
+
+    // `data` is gone — uncomment the next line and the compiler will stop you:
+    // println!("{:?}", data);  // ERROR: value used after move
+
+    println!("Doubled: {:?}", doubled);
+}</code></pre>
+<pre><code class="language-rust"></code><code>Doubled: [2, 4, 6, 8, 10]
+</code></pre>
+<p>Here, <code>into_iter()</code> consumes the vector, and the closure <code>|x| x * 2</code> receives each element by value. The original <code>data</code> is gone. This isn't a runtime error waiting to happen — the compiler catches it <em>before your code ever runs</em>.</p>
+<p>Try doing that in Python. You'd get a valid but empty list, or worse, a subtle bug. In Rust, misuse of moved data is a compile-time impossibility.</p>
+<hr>
+<h2>The <code>move</code> Keyword: Forcing Ownership</h2>
+<p>Sometimes Rust's inference picks an immutable borrow, but you <em>need</em> the closure to own the data — typically because you're sending it to another thread. That's when you reach for <code>move</code>:</p>
+<pre class="language-rust"><code>use std::thread;
+
+fn main() {
+    let greeting = String::from("Hello from the other side!");
+
+    // Without `move`, this won't compile — the thread might outlive `greeting`
+    let handle = thread::spawn(move || {
+        println!("{greeting}");
+    });
+
+    // `greeting` has been moved into the closure — it's no longer available here
+    // println!("{greeting}");  // ERROR: value used after move
+
+    handle.join().unwrap();
+}</code></pre>
+<pre><code class="language-rust"></code>The <code>move</code> keyword tells Rust: "I don't care what the closure <em>needs</em> — give it ownership of <strong>everything</strong> it captures." This is essential for thread safety, because Rust's type system requires that data sent across threads is <code>Send</code>, and a dangling reference definitely isn't.</pre>
+<p>This is where Rust truly separates itself from the pack. In Go, you can accidentally share a pointer across goroutines and get a data race. In Java, you're relying on <code>synchronized</code> blocks and hoping for the best. In Rust, <strong>data races involving closures are a compile-time error.</strong> Full stop.</p>
+<hr>
+<h2>Closures + Iterators = Pure Joy</h2>
+<p>If closures are Rust's superpower, iterators are the cape. Together, they let you write expressive, functional-style transformations that compile down to code as fast as a hand-written <code>for</code> loop (seriously — Rust calls these "zero-cost abstractions" and they mean it).</p>
+<pre class="language-rust"><code>fn main() {
+    let words = vec!["hello", "world", "from", "rust"];
+
+    // Chain closures together for expressive data pipelines
+    let shout: Vec&lt;String&gt; = words
+        .iter()                          // borrow each element
+        .filter(|w| w.len() &gt; 4)         // keep only words longer than 4 chars
+        .map(|w| w.to_uppercase())        // transform to uppercase
+        .collect();                       // gather into a new Vec
+
+    println!("Shouting: {:?}", shout);
+    println!("Original words still here: {:?}", words);
+}</code></pre>
+<pre><code class="language-rust"></code><code>Shouting: ["HELLO", "WORLD"]
+Original words still here: ["hello", "world", "from", "rust"]
+</code></pre>
+<p>Every closure in that chain borrows immutably, so <code>words</code> survives unscathed. The compiler knows this. You know this. And the generated machine code is identical to what you'd get from a hand-optimised loop — no heap allocations for intermediate collections, no virtual dispatch, no garbage collection pauses.</p>
+<p>Compare this to Java's streams or C#'s LINQ. Those are lovely APIs, but they carry runtime overhead from boxing, dynamic dispatch, and garbage collection. Rust gives you the same ergonomics with none of the cost.</p>
+<hr>
+<h2>Why Rust's Closures Are Different (and Better)</h2>
+<p>Let's be direct about what sets Rust apart here:</p>
+<p><strong>Zero-cost abstraction.</strong> Closures in Rust are monomorphised at compile time. Each closure gets its own unique, anonymous type. The compiler can inline them aggressively. There is no <code>Function</code> object on a heap somewhere — it's all flattened into tight machine code.</p>
+<p><strong>Ownership is explicit.</strong> In JavaScript, a closure can silently keep a massive object alive because it captured one tiny field. Memory leaks from accidental closure captures are a real and common problem. In Rust, if a closure owns data, you <em>know</em> it owns data, because the original variable becomes unusable.</p>
+<p><strong>Concurrency safety is guaranteed.</strong> Closures that cross thread boundaries must satisfy <code>Send</code> and <code>Sync</code>. The compiler enforces this. You literally cannot write a data race with safe Rust closures. This isn't a convention or a best practice — it's a mathematical guarantee enforced by the type system.</p>
+<p><strong>The trait system is elegant.</strong> <code>Fn</code>, <code>FnMut</code>, and <code>FnOnce</code> form a clear hierarchy. If a function accepts <code>FnOnce</code>, you can pass any closure. If it requires <code>Fn</code>, your closure must be pure enough to call repeatedly without side effects. This gives API designers fine-grained control over what callers can do, expressed entirely through types.</p>
+<hr>
+<h2>A Quick Reference: Which Trait Does Your Closure Implement?</h2>
+<pre><code>FnOnce  ⊇  FnMut  ⊇  Fn
+
+- Every closure implements FnOnce (it can be called at least once)
+- If it doesn't move out of captured data, it also implements FnMut
+- If it doesn't mutate captured data, it also implements Fn
+</code></pre>
+<p>Think of it as a ladder of increasing flexibility. <code>Fn</code> closures are the most reusable — you can call them from multiple threads, pass them around freely, call them a thousand times. <code>FnOnce</code> closures are the most powerful — they can consume their captures, but only once.</p>
+<hr>
+<h2>Go Forth and Close Over Things</h2>
+<p>Closures are one of those features that <em>every</em> language has, but Rust's implementation is in a class of its own. The combination of zero-cost abstraction, compile-time ownership tracking, and the <code>Fn</code> trait hierarchy means you get expressiveness that rivals functional languages and performance that rivals C — simultaneously.</p>
+<p>If you're new to Rust, closures are where things start to "click." You'll find them everywhere: in iterator chains, in error handling with <code>unwrap_or_else</code>, in thread spawning, in async runtimes, in builder patterns. Master closures and you've unlocked a huge chunk of idiomatic Rust.</p>
+<p>So go ahead. Capture some variables. Transform some collections. Spawn some threads. The compiler has your back!</p>
+            ]]>
+        </content>
+    </entry>
+</feed>
