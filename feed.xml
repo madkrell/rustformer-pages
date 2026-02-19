@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
-    <title>Rustformer</title>
+    <title>RUSTFORMER</title>
     <link href="https://madkrell.github.io/rustformer-pages/feed.xml" rel="self" />
     <link href="https://madkrell.github.io/rustformer-pages" />
     <updated>2026-02-19T20:16:32+00:00</updated>
