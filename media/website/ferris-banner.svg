@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <!-- Gradient for background -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    <!-- Glow for Ferris -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Sparkle filter -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Shadow for Ferris -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#bgGrad)" rx="20"/>
+  
+  <!-- Subtle grid pattern -->
+  <g opacity="0.03">
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(60,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(120,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(180,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(240,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(300,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(900,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(960,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(1020,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(1080,0)" />
+    <line x1="0" y1="0" x2="0" y2="400" stroke="white" stroke-width="1" transform="translate(1140,0)" />
+  </g>
+
+  <!-- ==================== RUST LOGO (left) ==================== -->
+  <g transform="translate(70, 105) scale(0.37)">
+    <path fill="#ffffff" d="m508.52 249.75l-21.82-13.51c-.17-2-.34-3.93-.55-5.88l18.72-17.5a7.35 7.35 0 0 0-2.44-12.25l-24-9c-.54-1.88-1.08-3.78-1.67-5.64l15-20.83a7.35 7.35 0 0 0-4.79-11.54l-25.42-4.15c-.9-1.73-1.79-3.45-2.73-5.15l10.68-23.42a7.35 7.35 0 0 0-6.95-10.39l-25.82.91q-1.79-2.22-3.61-4.4L439 81.84a7.36 7.36 0 0 0-8.84-8.84L405 78.93q-2.17-1.83-4.4-3.61l.91-25.82a7.35 7.35 0 0 0-10.39-7L367.7 53.23c-1.7-.94-3.43-1.84-5.15-2.73l-4.15-25.42a7.35 7.35 0 0 0-11.54-4.79L326 35.26c-1.86-.59-3.75-1.13-5.64-1.67l-9-24a7.35 7.35 0 0 0-12.25-2.44l-17.5 18.72c-1.95-.21-3.91-.38-5.88-.55L262.25 3.48a7.35 7.35 0 0 0-12.5 0L236.24 25.3c-2 .17-3.93.34-5.88.55l-17.5-18.72a7.35 7.35 0 0 0-12.25 2.44l-9 24c-1.89.55-3.79 1.08-5.66 1.68l-20.82-15a7.35 7.35 0 0 0-11.54 4.79l-4.15 25.41c-1.73.9-3.45 1.79-5.16 2.73l-23.4-10.63a7.35 7.35 0 0 0-10.39 7l.92 25.81c-1.49 1.19-3 2.39-4.42 3.61L81.84 73A7.36 7.36 0 0 0 73 81.84L78.93 107c-1.23 1.45-2.43 2.93-3.62 4.41l-25.81-.91a7.42 7.42 0 0 0-6.37 3.26a7.35 7.35 0 0 0-.57 7.13l10.66 23.41c-.94 1.7-1.83 3.43-2.73 5.16l-25.41 4.14a7.35 7.35 0 0 0-4.79 11.54l15 20.82c-.59 1.87-1.13 3.77-1.68 5.66l-24 9a7.35 7.35 0 0 0-2.44 12.25l18.72 17.5c-.21 1.95-.38 3.91-.55 5.88l-21.86 13.5a7.35 7.35 0 0 0 0 12.5l21.82 13.51c.17 2 .34 3.92.55 5.87l-18.72 17.5a7.35 7.35 0 0 0 2.44 12.25l24 9c.55 1.89 1.08 3.78 1.68 5.65l-15 20.83a7.35 7.35 0 0 0 4.79 11.54l25.42 4.15c.9 1.72 1.79 3.45 2.73 5.14l-10.63 23.43a7.35 7.35 0 0 0 .57 7.13a7.13 7.13 0 0 0 6.37 3.26l25.83-.91q1.77 2.22 3.6 4.4L73 430.16a7.36 7.36 0 0 0 8.84 8.84l25.16-5.93q2.18 1.83 4.41 3.61l-.92 25.82a7.35 7.35 0 0 0 10.39 6.95l23.43-10.68c1.69.94 3.42 1.83 5.14 2.73l4.15 25.42a7.34 7.34 0 0 0 11.54 4.78l20.83-15c1.86.6 3.76 1.13 5.65 1.68l9 24a7.36 7.36 0 0 0 12.25 2.44l17.5-18.72c1.95.21 3.92.38 5.88.55l13.51 21.82a7.35 7.35 0 0 0 12.5 0l13.51-21.82c2-.17 3.93-.34 5.88-.56l17.5 18.73a7.36 7.36 0 0 0 12.25-2.44l9-24c1.89-.55 3.78-1.08 5.65-1.68l20.82 15a7.34 7.34 0 0 0 11.54-4.78l4.15-25.42c1.72-.9 3.45-1.79 5.15-2.73l23.42 10.68a7.35 7.35 0 0 0 10.39-6.95l-.91-25.82q2.22-1.79 4.4-3.61l25.15 5.93a7.36 7.36 0 0 0 8.84-8.84L433.07 405q1.83-2.17 3.61-4.4l25.82.91a7.23 7.23 0 0 0 6.37-3.26a7.35 7.35 0 0 0 .58-7.13l-10.68-23.42c.94-1.7 1.83-3.43 2.73-5.15l25.42-4.15a7.35 7.35 0 0 0 4.79-11.54l-15-20.83c.59-1.87 1.13-3.76 1.67-5.65l24-9a7.35 7.35 0 0 0 2.44-12.25l-18.72-17.5c.21-1.95.38-3.91.55-5.87l21.82-13.51a7.35 7.35 0 0 0 0-12.5Zm-151 129.08A13.91 13.91 0 0 0 341 389.51l-7.64 35.67a187.51 187.51 0 0 1-156.36-.74l-7.64-35.66a13.87 13.87 0 0 0-16.46-10.68l-31.51 6.76a187.38 187.38 0 0 1-16.26-19.21H258.3c1.72 0 2.89-.29 2.89-1.91v-54.19c0-1.57-1.17-1.91-2.89-1.91h-44.83l.05-34.35H262c4.41 0 23.66 1.28 29.79 25.87c1.91 7.55 6.17 32.14 9.06 40c2.89 8.82 14.6 26.46 27.1 26.46H407a187.3 187.3 0 0 1-17.34 20.09Zm25.77 34.49A15.24 15.24 0 1 1 368 398.08h.44a15.23 15.23 0 0 1 14.8 15.24Zm-225.62-.68a15.24 15.24 0 1 1-15.25-15.25h.45a15.25 15.25 0 0 1 14.75 15.25Zm-88.1-178.49l32.83-14.6a13.88 13.88 0 0 0 7.06-18.33L102.69 186h26.56v119.73h-53.6a187.65 187.65 0 0 1-6.08-71.58m-11.26-36.06a15.24 15.24 0 0 1 15.23-15.25H74a15.24 15.24 0 1 1-15.67 15.24Zm155.16 24.49l.05-35.32h63.26c3.28 0 23.07 3.77 23.07 18.62c0 12.29-15.19 16.7-27.68 16.7ZM399 306.71c-9.8 1.13-20.63-4.12-22-10.09c-5.78-32.49-15.39-39.4-30.57-51.4c18.86-11.95 38.46-29.64 38.46-53.26c0-25.52-17.49-41.59-29.4-49.48c-16.76-11-35.28-13.23-40.27-13.23h-198.9a187.49 187.49 0 0 1 104.89-59.19l23.47 24.6a13.82 13.82 0 0 0 19.6.44l26.26-25a187.51 187.51 0 0 1 128.37 91.43l-18 40.57a14 14 0 0 0 7.09 18.33l34.59 15.33a187.12 187.12 0 0 1 .4 32.54h-19.28c-1.91 0-2.69 1.27-2.69 3.13v8.82C421 301 409.31 305.58 399 306.71M240 60.21A15.24 15.24 0 0 1 255.21 45h.45A15.24 15.24 0 1 1 240 60.21M436.84 214a15.24 15.24 0 1 1 0-30.48h.44a15.24 15.24 0 0 1-.44 30.48"/>
+  </g>
+
+  <!-- ==================== FERRIS THE CRAB (center) ==================== -->
+  <g transform="translate(600, 200)" filter="url(#shadow)">
+    
+    <!-- Body (main shell) -->
+    <ellipse cx="0" cy="10" rx="110" ry="75" fill="#E8562A">
+      <animate attributeName="ry" values="75;78;75" dur="3s" repeatCount="indefinite"/>
+    </ellipse>
+    <!-- Body highlight -->
+    <ellipse cx="-15" cy="-15" rx="70" ry="40" fill="#F4845F" opacity="0.5"/>
+    <!-- Body shine -->
+    <ellipse cx="-30" cy="-30" rx="25" ry="12" fill="#FFB088" opacity="0.4"/>
+    
+    <!-- Left leg 1 (back) -->
+    <g transform="translate(-85, 45)">
+      <path d="M0,0 Q-30,15 -50,35" stroke="#C44520" stroke-width="10" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;5,0,0;0,0,0" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Left leg 2 -->
+    <g transform="translate(-90, 25)">
+      <path d="M0,0 Q-35,5 -60,20" stroke="#C44520" stroke-width="9" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;-3,0,0;0,0,0" dur="2.3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Left leg 3 -->
+    <g transform="translate(-80, 60)">
+      <path d="M0,0 Q-25,20 -45,45" stroke="#C44520" stroke-width="8" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;4,0,0;0,0,0" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    
+    <!-- Right leg 1 (back) -->
+    <g transform="translate(85, 45)">
+      <path d="M0,0 Q30,15 50,35" stroke="#C44520" stroke-width="10" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;-5,0,0;0,0,0" dur="2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Right leg 2 -->
+    <g transform="translate(90, 25)">
+      <path d="M0,0 Q35,5 60,20" stroke="#C44520" stroke-width="9" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;3,0,0;0,0,0" dur="2.3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Right leg 3 -->
+    <g transform="translate(80, 60)">
+      <path d="M0,0 Q25,20 45,45" stroke="#C44520" stroke-width="8" fill="none" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0;-4,0,0;0,0,0" dur="1.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    
+    <!-- LEFT CLAW ARM -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0,-70,-10;-8,-70,-10;0,-70,-10" dur="2.5s" repeatCount="indefinite"/>
+      <!-- Arm -->
+      <path d="M-70,-10 Q-120,-50 -140,-70" stroke="#E8562A" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <!-- Claw top -->
+      <path d="M-140,-70 Q-155,-95 -135,-100" stroke="#D94E22" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <!-- Claw bottom -->
+      <path d="M-140,-70 Q-165,-65 -155,-90" stroke="#D94E22" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <!-- Peace sign / V with claw! -->
+      <line x1="-143" y1="-85" x2="-155" y2="-115" stroke="#D94E22" stroke-width="6" stroke-linecap="round"/>
+      <line x1="-137" y1="-88" x2="-128" y2="-118" stroke="#D94E22" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    
+    <!-- RIGHT CLAW ARM (thumbs up!) -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0,70,-10;8,70,-10;0,70,-10" dur="2.5s" repeatCount="indefinite"/>
+      <!-- Arm -->
+      <path d="M70,-10 Q120,-50 140,-70" stroke="#E8562A" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <!-- Claw top (pointing up like thumbs-up) -->
+      <path d="M140,-70 Q150,-100 145,-105" stroke="#D94E22" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <!-- Claw bottom (curled in) -->
+      <path d="M140,-70 Q160,-60 155,-80" stroke="#D94E22" stroke-width="11" fill="none" stroke-linecap="round"/>
+    </g>
+    
+    <!-- FACE -->
+    <!-- Left eye (white) -->
+    <ellipse cx="-32" cy="-18" rx="22" ry="26" fill="white"/>
+    <!-- Right eye (white) -->
+    <ellipse cx="32" cy="-18" rx="22" ry="26" fill="white"/>
+    
+    <!-- SUNGLASSES!! -->
+    <!-- Left lens -->
+    <rect x="-56" y="-38" width="48" height="32" rx="6" fill="#1a1a2e" opacity="0.9"/>
+    <!-- Right lens -->
+    <rect x="8" y="-38" width="48" height="32" rx="6" fill="#1a1a2e" opacity="0.9"/>
+    <!-- Bridge -->
+    <path d="M-8,-25 Q0,-30 8,-25" stroke="#1a1a2e" stroke-width="4" fill="none"/>
+    <!-- Left arm of glasses -->
+    <line x1="-56" y1="-28" x2="-75" y2="-32" stroke="#1a1a2e" stroke-width="3"/>
+    <!-- Right arm of glasses -->
+    <line x1="56" y1="-28" x2="75" y2="-32" stroke="#1a1a2e" stroke-width="3"/>
+    <!-- Lens shine left -->
+    <rect x="-50" y="-35" width="12" height="4" rx="2" fill="white" opacity="0.3"/>
+    <!-- Lens shine right -->
+    <rect x="14" y="-35" width="12" height="4" rx="2" fill="white" opacity="0.3"/>
+    
+    <!-- Pupils (visible through sunglasses, peeking) -->
+    <circle cx="-30" cy="-20" r="7" fill="#333" opacity="0.5">
+      <animate attributeName="cx" values="-30;-26;-30" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="34" cy="-20" r="7" fill="#333" opacity="0.5">
+      <animate attributeName="cx" values="34;38;34" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Big happy mouth -->
+    <path d="M-30,18 Q0,50 30,18" stroke="#8B2500" stroke-width="4" fill="#C44520"/>
+    <!-- Tongue -->
+    <ellipse cx="0" cy="30" rx="12" ry="8" fill="#FF6B6B" opacity="0.7"/>
+    
+    <!-- Cheek blush -->
+    <ellipse cx="-55" cy="5" rx="14" ry="9" fill="#FF6B6B" opacity="0.3"/>
+    <ellipse cx="55" cy="5" rx="14" ry="9" fill="#FF6B6B" opacity="0.3"/>
+    
+    <!-- Antenna / eye stalks -->
+    <line x1="-25" y1="-45" x2="-35" y2="-70" stroke="#C44520" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="-35" cy="-73" r="6" fill="#E8562A"/>
+    <circle cx="-35" cy="-73" r="3" fill="#FFB088"/>
+    
+    <line x1="25" y1="-45" x2="35" y2="-70" stroke="#C44520" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="35" cy="-73" r="6" fill="#E8562A"/>
+    <circle cx="35" cy="-73" r="3" fill="#FFB088"/>
+  </g>
+  
+  <!-- Sparkle particles around Ferris -->
+  <g filter="url(#softGlow)">
+    <text x="490" y="120" fill="#FFD700" font-size="18" opacity="0.8">✦</text>
+    <text x="720" y="100" fill="#FFD700" font-size="14" opacity="0.6">✦</text>
+    <text x="460" y="280" fill="#FFD700" font-size="12" opacity="0.5">✦</text>
+    <text x="740" y="300" fill="#FFD700" font-size="16" opacity="0.7">✦</text>
+    <text x="530" y="340" fill="#87CEEB" font-size="10" opacity="0.5">✧</text>
+    <text x="680" y="130" fill="#87CEEB" font-size="13" opacity="0.6">✧</text>
+  </g>
+  
+  <!-- Speech bubble -->
+  <g transform="translate(700, 60)">
+    <rect x="0" y="0" width="145" height="44" rx="22" fill="white" opacity="0.95"/>
+    <polygon points="10,44 25,60 35,44" fill="white" opacity="0.95"/>
+    <text x="72" y="28" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#1a1a2e">fn cool() { }</text>
+  </g>
+
+  <!-- ==================== LEPTOS LOGO (right) ==================== -->
+  <g transform="translate(945, 105) scale(7.9)">
+    <path fill="#ffffff" d="M10.097 17.876A6.21 6.21 0 0 1 5.834 12c0-3.393 2.773-6.166 6.166-6.166c.248 0 .517.021.766.042a9.9 9.9 0 0 1 1.49-2.504a3.58 3.58 0 0 1-.85-2.296c0-.331.042-.662.146-.993A20 20 0 0 0 12 0C5.38 0 0 5.38 0 12c0 4.366 2.338 8.172 5.814 10.283l.124-.062a8.43 8.43 0 0 0 4.159-4.345m6.848-14.979c.662 0 1.262-.352 1.593-.952v-.02a12.3 12.3 0 0 0-3.269-1.49v.02a1.9 1.9 0 0 0-.124.642c0 .993.807 1.8 1.8 1.8M19.924 3c-.662 1.014-1.758 1.634-2.98 1.634a3.5 3.5 0 0 1-.806-.103a3 3 0 0 1-.476-.145a8.8 8.8 0 0 0-1.22 1.945c2.275.993 3.724 3.186 3.724 5.669c0 3.393-2.773 6.166-6.166 6.166h-.145a10.37 10.37 0 0 1-4.117 5.048C9.062 23.71 10.51 24 12 24c6.62 0 12-5.38 12-12c0-3.58-1.572-6.807-4.076-9m-8.848 4.67a4.428 4.428 0 1 0 1.849 8.661a4.428 4.428 0 1 0-1.85-8.66z"/>
+  </g>
+
+  <!-- Label text -->
+  <text x="155" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="600" fill="white" opacity="0.8" letter-spacing="3">RUST</text>
+  
+  <text x="600" y="360" text-anchor="middle" font-family="'Courier New', monospace" font-size="15" fill="#FFB088" opacity="0.7" letter-spacing="1">// zero-cost vibes only</text>
+  
+  <text x="1040" y="345" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22" font-weight="600" fill="white" opacity="0.8" letter-spacing="3">LEPTOS</text>
+
+  <!-- Decorative connecting lines -->
+  <line x1="280" y1="200" x2="440" y2="200" stroke="white" stroke-width="1" opacity="0.15" stroke-dasharray="5,5"/>
+  <line x1="760" y1="200" x2="920" y2="200" stroke="white" stroke-width="1" opacity="0.15" stroke-dasharray="5,5"/>
+  
+  <!-- Small code snippets floating -->
+  <text x="350" y="140" font-family="'Courier New', monospace" font-size="11" fill="#87CEEB" opacity="0.3" transform="rotate(-12, 350, 140)">.iter()</text>
+  <text x="830" y="150" font-family="'Courier New', monospace" font-size="11" fill="#87CEEB" opacity="0.3" transform="rotate(8, 830, 150)">#[component]</text>
+  <text x="380" y="300" font-family="'Courier New', monospace" font-size="10" fill="#87CEEB" opacity="0.2" transform="rotate(5, 380, 300)">move ||</text>
+  <text x="810" y="310" font-family="'Courier New', monospace" font-size="10" fill="#87CEEB" opacity="0.2" transform="rotate(-6, 810, 310)">&amp;mut self</text>
+</svg>
